@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+//nod modules
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Auth from "./components/Auth/Auth";
+import "./App.css"
+// components
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import Home from "./components/Home/Home";
+import ProductsList from "./components/ProductsList/ProductsList";
+import AuthContextProvider from "./contexts/authContext";
+import ProductsContextProvider from "./contexts/productsContext";
 
-function App() {
+// css
+
+const App = () => {
+  let routes = [
+    {
+      link: "/",
+      element: <Home />,
+      id: 1,
+    },
+    {
+      link: "/products",
+      element: <ProductsList />,
+      id: 2,
+    },
+    {
+      link: "/auth",
+      element: <Auth />,
+      id: 2,
+    },
+  ];
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContextProvider >
+    <ProductsContextProvider>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          {routes.map((item) => (
+            <Route path={item.link} element={item.element} />
+          ))}
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </ProductsContextProvider>
+    </AuthContextProvider>
   );
-}
+};
 
 export default App;
